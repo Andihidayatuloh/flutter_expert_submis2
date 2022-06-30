@@ -1,66 +1,62 @@
-// import 'package:ditonton/common/state_enum.dart';
-// import 'package:ditonton/domain/entities/tv/tv.dart';
-// import 'package:ditonton/presentation/pages/tv/top_rated_page_tv.dart';
-// import 'package:ditonton/presentation/provider/tv/top_rated_notifier_tv.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:mockito/annotations.dart';
-// import 'package:mockito/mockito.dart';
-// import 'package:provider/provider.dart';
+import 'package:core/presentation/bloc/tv/top_rated_tv_bloc.dart';
+import 'package:core/presentation/pages/tv/top_rated_page_tv.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mocktail/mocktail.dart';
 
-// import 'top_rated_tv_page_test.mocks.dart';
+import '../../../dummy_data/dummy_objects.dart';
+import 'top_rated_tv_page_test.mocks.dart';
 
-// @GenerateMocks([TopRatedTvNotifier])
-// void main() {
-//   late MockTopRatedMoviesNotifier mockNotifier;
+void main() {
+  late final MockTopTvBloc mockTopTvBloc;
 
-//   setUp(() {
-//     mockNotifier = MockTopRatedMoviesNotifier();
-//   });
+  setUpAll(() {
+    registerFallbackValue(TopRatedTVEventFake());
+    registerFallbackValue(TopRatedTVStateFake());
 
-//   Widget _makeTestableWidget(Widget body) {
-//     return ChangeNotifierProvider<TopRatedTvNotifier>.value(
-//       value: mockNotifier,
-//       child: MaterialApp(
-//         home: body,
-//       ),
-//     );
-//   }
+    mockTopTvBloc = MockTopTvBloc();
+  });
 
-//   testWidgets('Page should display progress bar when loading',
-//       (WidgetTester tester) async {
-//     when(mockNotifier.state).thenReturn(RequestState.Loading);
+  Widget _makeTestableWidget(Widget body) {
+    return BlocProvider<TopTvBloc>.value(
+      value: mockTopTvBloc,
+      child: MaterialApp(home: body),
+    );
+  }
 
-//     final progressFinder = find.byType(CircularProgressIndicator);
-//     final centerFinder = find.byType(Center);
+  group('Top Rated TV Page', () {
+    testWidgets(
+        'Should display CircularProgressIndicator when state is TopRatedTVLoading',
+        (WidgetTester tester) async {
+      when(() => mockTopTvBloc.state).thenReturn(TopTvLoading());
+      final circular = find.byType(CircularProgressIndicator);
 
-//     await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
+      await tester.pumpWidget(_makeTestableWidget(const TopTvPage()));
 
-//     expect(centerFinder, findsOneWidget);
-//     expect(progressFinder, findsOneWidget);
-//   });
+      expect(circular, findsOneWidget);
+    });
 
-//   testWidgets('Page should display when data is loaded',
-//       (WidgetTester tester) async {
-//     when(mockNotifier.state).thenReturn(RequestState.Loaded);
-//     when(mockNotifier.tv).thenReturn(<Tv>[]);
+    testWidgets('Should display ListView when state is TopRatedTVData',
+        (WidgetTester tester) async {
+      when(() => mockTopTvBloc.state)
+          .thenReturn(TopTvData(testTvList));
+      final list = find.byType(ListView);
 
-//     final listViewFinder = find.byType(ListView);
+      await tester.pumpWidget(_makeTestableWidget(const TopTvPage()));
 
-//     await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
+      expect(list, findsOneWidget);
+    });
 
-//     expect(listViewFinder, findsOneWidget);
-//   });
+    testWidgets("Should display Text('Failed') when state is TopRatedTVError",
+        (WidgetTester tester) async {
+      when(() => mockTopTvBloc.state)
+          .thenReturn(TopTvError('Failed'));
+      final errorText = find.text('Failed');
 
-//   testWidgets('Page should display text with message when Error',
-//       (WidgetTester tester) async {
-//     when(mockNotifier.state).thenReturn(RequestState.Error);
-//     when(mockNotifier.message).thenReturn('Error message');
+      await tester.pumpWidget(_makeTestableWidget(const TopTvPage()));
 
-//     final textFinder = find.byKey(Key('error_message'));
-
-//     await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
-
-//     expect(textFinder, findsOneWidget);
-//   });
-// }
+      expect(errorText, findsOneWidget);
+    });
+  });
+}

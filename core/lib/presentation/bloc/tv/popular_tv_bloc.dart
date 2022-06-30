@@ -8,10 +8,10 @@ part 'popular_tv_event.dart';
 part 'popular_tv_state.dart';
 
 class PopularTvBloc extends Bloc<PopularTvEvent, PopularTvState> {
-  final GetPopularTv getPopularTV;
+  final GetPopularTv getPopularTv;
 
   PopularTvBloc({
-    required this.getPopularTV,
+    required this.getPopularTv,
   }) : super(PopularTvEmpty()) {
     on<FetchPopularTv>(_fetchPopularTv);
   }
@@ -19,7 +19,7 @@ class PopularTvBloc extends Bloc<PopularTvEvent, PopularTvState> {
   void _fetchPopularTv(
       FetchPopularTv fetchPopularTV, Emitter<PopularTvState> emitter) async {
     emitter(PopularTvLoading());
-    final hasil = await getPopularTV.execute();
+    final hasil = await getPopularTv.execute();
     hasil.fold(
       (failure) => emitter(PopularTvError(failure.message)),
       (data) => emitter(PopularTvData(data)),

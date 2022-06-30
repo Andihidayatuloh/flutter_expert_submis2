@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class TopRatedTvPage extends StatefulWidget {
-  const TopRatedTvPage({Key? key}) : super(key: key);
+class TopTvPage extends StatefulWidget {
+  const TopTvPage({Key? key}) : super(key: key);
 
   @override
-  _TopRatedTvPageState createState() => _TopRatedTvPageState();
+  _TopTvPageState createState() => _TopTvPageState();
 }
 
-class _TopRatedTvPageState extends State<TopRatedTvPage> {
+class _TopTvPageState extends State<TopTvPage> {
   @override
   void initState() {
     super.initState();

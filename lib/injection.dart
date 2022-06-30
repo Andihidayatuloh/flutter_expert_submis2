@@ -86,7 +86,7 @@ locator.registerFactory(
     getNowPlayingTv: locator()));
 locator.registerFactory(
   () => PopularTvBloc(
-    getPopularTV: locator()));
+    getPopularTv: locator()));
   locator.registerFactory(
     () => TopTvBloc(
       getTopTv: locator()));
