@@ -54,7 +54,6 @@ void main() {
 
   final testTV = Tv(
     backdropPath: '/suopoADq0k8YZr4dQXcU6pToj6s.jpg',
-    // firstAirDate: '2011-04-17',
     genreIds: const [
       10765,
       18,
@@ -63,15 +62,12 @@ void main() {
     ],
     id: 1399,
     name: 'Game of Thrones',
-    // numberOfEpisodes: 73,
-    // numberOfSeasons: 8,
     originalName: 'Game of Thrones',
     overview:
         'Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night'
         's Watch, is all that stands between the realms of men and icy horrors beyond.',
     popularity: 369.594,
     posterPath: '/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg',
-    // type: 'Scripted',
     voteAverage: 8.3,
     voteCount: 11504,
   );

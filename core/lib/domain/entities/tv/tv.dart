@@ -14,7 +14,8 @@ class Tv extends Equatable {
     this.popularity,
     this.posterPath,
     this.voteAverage,
-    this.voteCount,
+    this.voteCount, 
+
   });
 
   Tv.watchlist({
